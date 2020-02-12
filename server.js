@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(cors());
 
 
-const dbRoute = process.env.MONGODB_URI
+const dbRoute = process.env.MONGODB_MAUVE_URI
 mongoose.connect(dbRoute, { 
     useNewUrlParser: true,
     useUnifiedTopology: true
