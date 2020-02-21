@@ -5,11 +5,11 @@ var cors = require('cors');
 const PortfolioItem = require('./models/portfolioItem');
 const user = require('./routes/user');
 const app = express();
-
+app.use(cors());
 require('dotenv').config();
 
 app.use(express.json())
-app.use(cors());
+
 
 
 const dbRoute = process.env.MONGODB_MAUVE_URI
@@ -24,7 +24,11 @@ let db = mongoose.connection;
 db.once('open', () => console.log('Connected to the database'));
 db.on('error', console.error.bind(console, 'MongoDB Connection Error:'));
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
+    next();
+})
 
 app.get('/', (req, res) => {
     res.send('Test Passed. Connected to Express API')
