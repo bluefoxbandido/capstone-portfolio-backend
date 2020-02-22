@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const auth = require('../middleware/auth');
+
 const PortfolioItem = require("../models/portfolioItem");
 
 router.get("/all", (req, res) => {
