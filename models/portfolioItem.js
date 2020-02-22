@@ -5,7 +5,7 @@ const PortfolioItemSchema = new mongoose.Schema(
         name: String,
         url: String,
         description: String,
-        imageUrl: String
+        blogUrl: String
     }
 );
 
