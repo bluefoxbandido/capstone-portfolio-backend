@@ -14,7 +14,7 @@ router.get('/:id', (req, res) => {
         .catch(err => res.status(400).json('Error getting individual' + err))
 })
 
-router.post('/create', (req, res) => {
+router.post('/create', auth, (req, res) => {
     const name = req.body.name;
     const description = req.body.description;
     const url = req.body.url;
@@ -32,7 +32,7 @@ router.post('/create', (req, res) => {
         .catch(err => res.status(400).json('Error adding item' + err))
 })
 
-router.put('/:id', (req, res) => {
+router.patch('/:id', auth, (req, res) => {
     PortfolioItem.findById(req.params.id)
         .then(portfolioItem => {
             portfolioItem.name = req.body.name;
@@ -47,7 +47,7 @@ router.put('/:id', (req, res) => {
         .catch(err => res.status(400).json('Error Updating' + err))
 })
 
-router.delete('/deletePortfolioItem/:id', (req, res) => {
+router.delete('/deletePortfolioItem/:id', auth, (req, res) => {
     PortfolioItem.findByIdAndDelete(req.params.id)
         .then(() => res.json('Portfolio item deleted'))
         .catch(err => res.status(400).json('Error deleting' + err))

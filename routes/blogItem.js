@@ -14,7 +14,7 @@ router.get('/:id', (req, res) => {
         .catch(err => res.status(400).json(err))
 })
 
-router.post('/create', (req, res) => {
+router.post('/create', auth, (req, res) => {
     const title = req.body.title;
     const date = req.body.date;
     const body = req.body.body;
@@ -36,8 +36,30 @@ router.post('/create', (req, res) => {
     newBlog.save()
         .then(() => res.json('Blog Item Added'))
         .catch(err => res.status(400).json(err))
+})
 
+router.patch('/:id', auth, (req, res) => {
+    Blog.findById(req.params.id)
+        .then(blog =>{
+            blog.title = req.body.title;
+            blog.date = req.body.date;
+            blog.body = req.body.body;
+            blog.gitUrl = req.body.gitUrl;
+            blog.languages = req.body.languages;
+            blog.frameworks = req.body.frameworks;
+            blog.libraries = req.body.libraries;
 
+            blog.save()
+                .then(() => res.json('Blog added'))
+                .catch(err => res.status(400).json(err))
+        })
+        .catch(err => res.status(400).json(err))
+})
+
+router.delete('/deleteBlog/:id', auth, (req, res) => {
+    Blog.findByIdAndDelete(req.params.id)
+        .then(() => res.json('Blog Deleted'))
+        .catch(err => res.status(400).json(err))
 })
 
 module.exports = router;
