@@ -6,12 +6,15 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ msg: "Auth Error" });
   }
 
-  try {
-    const decoded = jwt.verify(token, "secret");
-    req.user = decoded.user;
-    next();
-  } catch (e) {
-    console.error(e);
-    res.status(500).send({ msg: "Invalid Token" });
-  }
+  jwt
+    .verify(token, "secret")
+    .then((req, res) => {
+      req.user = res.user;
+      console.log(user);
+      next();
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(400).json("Error Verifying [AUTH.js LINE 16] ");
+    });
 };

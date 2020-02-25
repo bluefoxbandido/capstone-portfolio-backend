@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const auth = require('../middleware/auth');
+const auth = require("../middleware/auth");
 
 const PortfolioItem = require("../models/portfolioItem");
+
+router.get("/", (req, res) => {
+  res.json("Portfolio Item DB");
+});
 
 router.get("/all", (req, res) => {
   PortfolioItem.find()

@@ -6,23 +6,24 @@ const router = express.Router();
 const User = require("../models/user");
 const auth = require("../middleware/auth");
 
+router.get("/", (req, res) => {
+  res.json("User DB");
+});
+
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
-  console.log("User Submitted", email, password);
 
   User.findOne({ email: email }).then(user => {
-    console.log("User Found: ", user);
     if (user === null) {
       res.json(false);
     }
     bcrypt.compare(password, user.password, (err, result) => {
       if (result === true) {
-        console.log("Valid");
-
         let token = jwt.sign({ email: user.email }, "secret", {
           expiresIn: 1000
         });
         res.json({
+          user: user,
           success: true,
           err: null,
           token
@@ -39,13 +40,10 @@ router.post("/login", (req, res) => {
   });
 });
 
-router.get("/me", auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-    res.json(user);
-  } catch (e) {
-    res.send({ message: "Error in Fetching user" });
-  }
+router.get("/me", auth, (req, res) => {
+  User.find()
+    .then(user => res.json(user))
+    .catch(err => res.status(400).json("Error fetching all one user"));
 });
 
 module.exports = router;

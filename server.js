@@ -6,6 +6,7 @@ const user = require("./routes/user");
 const blogItem = require("./routes/blogItem");
 const portfolioItem = require("./routes/portfolioItem");
 
+
 const app = express();
 app.use(cors());
 require("dotenv").config();
@@ -30,12 +31,13 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Test Passed. Connected to Express API");
-});
+  res.json("Connected to API")
+})
 
 app.use("/user", user);
 app.use("/blogs", blogItem);
 app.use("/projects", portfolioItem);
+
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listening on port ${port}`));
