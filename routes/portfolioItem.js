@@ -39,7 +39,7 @@ router.post("/create", auth, (req, res) => {
     .catch(err => res.status(400).json("Error adding item" + err));
 });
 
-router.patch("/:id", auth, (req, res) => {
+router.post("/:id", auth, (req, res) => {
   PortfolioItem.findById(req.params.id)
     .then(portfolioItem => {
       portfolioItem.name = req.body.name;
