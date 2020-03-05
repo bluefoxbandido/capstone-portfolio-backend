@@ -45,10 +45,12 @@ router.post("/create", auth, (req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.patch("/:id", auth, (req, res) => {
+router.post("/:id", (req, res) => {
   Blog.findById(req.params.id)
     .then(blog => {
-      blog.title = req.body.title;
+      if (req.body.title !== null) {
+        blog.title = req.body.title;
+      }
       blog.date = req.body.date;
       blog.body = req.body.body;
       blog.gitUrl = req.body.gitUrl;
